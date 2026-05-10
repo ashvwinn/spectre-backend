@@ -7,4 +7,5 @@ func (app *application) registerRoutes(g *gin.Engine) {
 	g.Use(gin.Recovery())
 
 	g.GET("/health", app.healthHandler)
+	g.GET("/osint/iplookup/:ip", app.iplookupHandler)
 }

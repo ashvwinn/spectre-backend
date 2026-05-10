@@ -44,6 +44,7 @@ func IPLookupRun(addr string) (*IPLookup, error) {
 	var ipRes IPLookup
 	err = json.Unmarshal(body, &ipRes)
 	if err != nil {
+		// TODO: Handle error responses
 		return nil, fmt.Errorf("Failed IPLookup: %v", err)
 	}
 
