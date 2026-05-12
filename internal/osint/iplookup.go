@@ -2,29 +2,30 @@ package osint
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net"
 	"net/http"
 )
 
-var InvalidIPRepresentation = fmt.Errorf("Entered IP is not a Valid IP")
+var InvalidIPRepresentation = errors.New("entered ip is not valid ip")
 
 type IPLookup struct {
-	Country     string  `json:"country,omitempty"`
-	CountryCode string  `json:"countryCode,omitempty"`
-	Region      string  `json:"region,omitempty"`
-	RegionName  string  `json:"regionName,omitempty"`
-	City        string  `json:"city,omitempty"`
-	Zip         string  `json:"zip,omitempty"`
-	Latitude    float32 `json:"latitude,omitempty"`
-	Longitude   float32 `json:"longitude,omitempty"`
-	Timezone    string  `json:"timezone,omitempty"`
-	ISP         string  `json:"isp,omitempty"`
-	ORG         string  `json:"org,omitempty"`
-	AS          string  `json:"as,omitempty"`
-	Status      string  `json:"status,omitempty"`
-	Message     string  `json:"message,omitempty"`
+	Country     string  `json:"country"`
+	CountryCode string  `json:"countryCode"`
+	Region      string  `json:"region"`
+	RegionName  string  `json:"regionName"`
+	City        string  `json:"city"`
+	Zip         string  `json:"zip"`
+	Latitude    float32 `json:"latitude"`
+	Longitude   float32 `json:"longitude"`
+	Timezone    string  `json:"timezone"`
+	ISP         string  `json:"isp"`
+	ORG         string  `json:"org"`
+	AS          string  `json:"as"`
+	Status      string
+	Message     string
 }
 
 func IPLookupRun(addr string) (*IPLookup, error) {
