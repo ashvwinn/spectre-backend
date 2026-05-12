@@ -9,6 +9,9 @@ import (
 )
 
 var InvalidIPRepresentation = fmt.Errorf("Entered IP is not a Valid IP")
+var FetchInfoError = fmt.Errorf("Error fetching Info from API")
+var InvalidorEmptyResponse = fmt.Errorf("Error Reading Response Body: Either invalid or Empty")
+var FailedParsingIntoJSON = fmt.Errorf("Ran into Error parsing the response into JSON")
 
 type IPLookup struct {
 	Country     string  `json:"country,omitempty"`
@@ -34,20 +37,20 @@ func IPLookupRun(addr string) (*IPLookup, error) {
 
 	response, err := http.Get(fmt.Sprintf("http://ip-api.com/json/%s", addr))
 	if err != nil {
-		return nil, fmt.Errorf("Failed in API call: %v", err)
+		return nil, FetchInfoError
 	}
 	defer response.Body.Close()
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		return nil, fmt.Errorf("Failed in Reading Response Body: %v", err)
+		return nil, InvalidorEmptyResponse
 	}
 
 	var ipRes IPLookup
 	err = json.Unmarshal(body, &ipRes)
 	if err != nil {
 		// TODO: Handle error responses
-		return nil, fmt.Errorf("Failed in parsing response into JSON: %v", err)
+		return nil, FailedParsingIntoJSON
 	}
 
 	return &ipRes, nil

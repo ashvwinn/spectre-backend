@@ -16,6 +16,12 @@ func (app *application) iplookupHandler(c *gin.Context) {
 		switch {
 		case errors.Is(osint.InvalidIPRepresentation, err):
 			app.notFoundResponse(c) // TODO: change to failedValidationResponse after validations are implemented
+		case errors.Is(osint.InvalidorEmptyResponse, err):
+			app.notFoundResponse(c)
+		case errors.Is(osint.FetchInfoError, err):
+			app.serverErrorResponse(c, err)
+		case errors.Is(osint.FailedParsingIntoJSON, err):
+			app.serverErrorResponse(c, err)
 		default:
 			app.serverErrorResponse(c, err)
 		}
